@@ -1,5 +1,5 @@
 {
-    "active_urlBase": "https://parcial03-front.vercel.app",
+    "active_urlBase": "https://parcial03back-production.up.railway.app",
     "local_urlBase": "http://localhost:8000",
-    "deploy_urlBase": "https://parcial03-front.vercel.app"
+    "deploy_urlBase": "https://parcial03back-production.up.railway.app"
 }
