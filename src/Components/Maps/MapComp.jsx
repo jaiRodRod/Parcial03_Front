@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import CustomMap from "./CustomMap";
 import axios from "axios";
 
+import url from '../../url.json'
+
 function MapComp() {
 
     const [location, setLocation] = useState(null);
@@ -59,7 +61,7 @@ function MapComp() {
         if(location) {
             console.log(location);
             try {
-                const urlPeticion = `http://localhost:8000/event/?latitude=${location.latitude}&longitude=${location.longitude}`//&radius=200`
+                const urlPeticion = `${url.active_urlBase}/event/?latitude=${location.latitude}&longitude=${location.longitude}`//&radius=200`
                 const response = await axios.get(urlPeticion);
                 console.log(response);
                 const eventMarkers = response.data.map((event) => ({

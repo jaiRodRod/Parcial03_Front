@@ -3,18 +3,36 @@ import axios from "axios";
 import keys from "../../keys.json"
 import SingleItem from "./SingleItem";
 
+import Cookies from "universal-cookie";
+import { useSession } from "./SessionProvider";
+const cookies = new Cookies();
+
+import url from '../url.json'
+
 function GetItemsFromGeocode() {
     const [geocodeCoord,setGeocodeCoord] = useState(null);
     const [data, setData] = useState(null);
     const [items, setItems] = useState(null);  
     const [address, setAddress] = useState(null);
+    const email = cookies.get("email");
+    const {isLoggedIn} = useSession();
+
+    const cleanItems = () => {
+        setGeocodeCoord(null);
+        setData(null);
+        setItems(null);
+    }
+
+    useEffect(() => {
+        cleanItems();
+    },[isLoggedIn]) 
 
     useEffect(() => {
         const fetchData = async() => {
             try {
                 if(geocodeCoord) {
                     //CAMBIAR
-                    const urlPeticion = `http://localhost:8000/event/?latitude=${geocodeCoord.lat}&longitude=${geocodeCoord.lng}&radius=0.2`
+                    const urlPeticion = `${url.active_urlBase}/event/?latitude=${geocodeCoord.lat}&longitude=${geocodeCoord.lng}&radius=0.2`
                     const response = await axios.get(urlPeticion);
                     setData(response.data);
                 }
@@ -27,7 +45,7 @@ function GetItemsFromGeocode() {
 
     useEffect(() => {
         if(data !== null) {
-            const itemsComponented = data.map((item) => <SingleItem key={item._id} data={item}/>);
+            const itemsComponented = data.map((item) => <SingleItem key={item._id} data={item} user={email} cleanItems={cleanItems}/>);
             setItems(itemsComponented);
         }
     }, [data]);

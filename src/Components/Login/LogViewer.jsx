@@ -3,6 +3,7 @@ import axios from 'axios';
 import SingleLog from './SingleLog';
 
 import Cookies from 'universal-cookie';
+import url from '../../url.json';
 
 const cookies = new Cookies();
 
@@ -15,7 +16,7 @@ function LogViewer() {
     const [logs, setLogs] = useState(null);
     const [show, setShow] = useState(false);
 
-    const urlPeticion = `http://localhost:8000/log/?filter_user=${email}&sort=true`
+    const urlPeticion = `${url.active_urlBase}/log/?filter_user=${email}&sort=true`
 
     const toggleLogs = () => {
         setReload(!reload)

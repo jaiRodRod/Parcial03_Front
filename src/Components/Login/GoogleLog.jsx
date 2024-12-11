@@ -5,6 +5,7 @@ import { useGoogleLogin, googleLogout } from '@react-oauth/google';
 import { useSession } from '../SessionProvider'; // Usamos el contexto
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
+import url from '../../url.json';
 
 function GoogleLog() {
 
@@ -32,8 +33,6 @@ function GoogleLog() {
                     })
                     .then((res) => {
                         setProfile(res.data);
-                        console.log(user);
-                        console.log(profile);
                         funLogin(res.data.email);
                     })
                     .catch((err) => console.log(err));
@@ -68,7 +67,7 @@ function GoogleLog() {
         };
     
         try {
-            const response = await axios.post('http://localhost:8000/log/', payload, {
+            const response = await axios.post(`${url.active_urlBase}/log/`, payload, {
               headers: {
                 'Content-Type': 'application/json',
               },

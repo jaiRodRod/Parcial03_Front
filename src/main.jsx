@@ -10,6 +10,7 @@ import keys from '../keys.json'
 import NavBar from './Components/NavBar';
 import Home from './Sites/Home';
 import Create from './Sites/Create';
+import Edit from './Sites/Edit';
 
 createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId={keys.GoogleClientID}>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/crearItem" element={<Create/>} />
+          <Route path='/editarItem/:id' element={<Edit/>} />
         </Routes>
       </Router>
     </SessionProvider>

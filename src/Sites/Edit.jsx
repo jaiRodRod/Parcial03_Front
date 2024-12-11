@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession } from '../Components/SessionProvider.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import keys from '../../keys.json';
 import url from '../url.json';
@@ -11,6 +11,7 @@ const cookies = new Cookies();
 function Create() {
     const { isLoggedIn } = useSession();
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [formData, setFormData] = useState({
         name: "",
@@ -36,6 +37,28 @@ function Create() {
     }, []);
 
     useEffect(() => {
+        const fetchItem = async () => {
+            try {
+                const response = await axios.get(`${url.active_urlBase}/event/${id}`);
+                const { nombre, date, lugar, url } = response.data;
+                setFormData({
+                    name: nombre || "",
+                    timestamp: date || "",
+                    place: lugar || "",
+                    image: "",
+                });
+                setUploadedUrl(url || "");
+            } catch (err) {
+                console.error("Error al cargar el ítem:", err);
+                alert("No se pudo cargar el ítem.");
+                navigate('/');
+            }
+        };
+
+        fetchItem();
+    }, [id, navigate]);
+
+    useEffect(() => {
         if (!isLoggedIn) {
             navigate('/');
         }
@@ -44,8 +67,8 @@ function Create() {
     const sanitizeString = (str) => str?.replace(/[\u200B-\u200D\uFEFF]/g, '');
 
     useEffect(() => {
-        const createItem = async () => {
-            //console.log(done);
+        const updateItem = async () => {
+            console.log(done);
             if (((formData['image'] && uploadedUrl) || formData['image']=="") && geocodeCoord && !done) {
                 setDone(true);
                 const payload = {
@@ -59,24 +82,24 @@ function Create() {
                 };
 
                 try {
-                    //console.log(payload);
-                    //console.log(done);
-                    await axios.post(`${url.active_urlBase}/event/`, payload, {
+                    console.log(payload);
+                    console.log(done);
+                    await axios.patch(`${url.active_urlBase}/event/${id}`, payload, {
                         headers: {
                             'Content-Type': 'application/json',
                         },
                     });
-                    alert("Item creado correctamente");
+                    alert("Item editado correctamente");
                     navigate('/');
                 } catch (err) {
-                    console.error("Error al crear el item:", err);
-                    alert("Fallo en la creación");
+                    console.error("Error al editar el item:", err);
+                    alert("Fallo en la edicion");
                     navigate('/');
                 }
             }
         };
 
-        createItem();
+        updateItem();
     }, [uploadedUrl, geocodeCoord, navigate]);
 
     const handleChange = (e) => {
@@ -163,7 +186,7 @@ function Create() {
                     onSubmit={handleSubmit}
                     className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md"
                 >
-                    <h1 className="text-2xl font-bold mb-4 text-gray-800">Formulario</h1>
+                    <h1 className="text-2xl font-bold mb-4 text-gray-800">Editar Ítem</h1>
 
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -222,13 +245,19 @@ function Create() {
                         />
                     </div>
 
+                    {uploadedUrl && (
+                        <div>
+                            Imagen actual: <a href={uploadedUrl} target='_blank'>Enlace</a>
+                        </div>
+                    )}
+
                     <div className="flex items-center justify-between">
                         <button
                             type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             disabled={isLoading}
                         >
-                            {isLoading ? "Cargando..." : "Enviar"}
+                            {isLoading ? "Guardando..." : "Guardar Cambios"}
                         </button>
                     </div>
                 </form>
@@ -238,3 +267,4 @@ function Create() {
 }
 
 export default Create;
+
