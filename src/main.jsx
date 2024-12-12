@@ -11,6 +11,7 @@ import NavBar from './Components/NavBar';
 import Home from './Sites/Home';
 import Create from './Sites/Create';
 import Edit from './Sites/Edit';
+import MapView from './Sites/MapView';
 
 createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId={keys.GoogleClientID}>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/" element={<Home/>} />
           <Route path="/crearItem" element={<Create/>} />
           <Route path='/editarItem/:id' element={<Edit/>} />
+          <Route path='/mapa' element={<MapView/>} />
         </Routes>
       </Router>
     </SessionProvider>

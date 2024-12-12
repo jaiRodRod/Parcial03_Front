@@ -82,15 +82,26 @@ function GoogleLog() {
     return (
         <div>
             {profile ? (
-                <div>
+                <div className='flex-row font-bold px-4 py-2 rounded-lg bg-white'>
                     {/*<img src={profile.picture} alt="user image" />  SOLO POSIBLE BAJO HTTPS*/}
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
-                    <button onClick={logOut}>Salir</button>
+                    <div className='flex justify-center'>
+                        <img src={profile.picture} alt="user image" className='rounded-full w-8 h-8 object-cover' />
+                    </div>
+                    <div className='flex-col flex-wrap font-normal'>
+                        <p>Nombre: {profile.name}</p>
+                        <p>Email: {profile.email}</p>
+                    </div>
+                    <div className='flex justify-center'>
+                        <button onClick={logOut} 
+                            className='px-1 hover:shadow-md rounded-md hover:bg-gray-100 focus:outline-none transition duration-300'
+                        >Salir</button>
+                    </div>
                 </div>
                 ) : (
-                <div className='my-2'>
-                    <button onClick={login}>Login con Google</button>
+                <div>
+                    <button onClick={login}
+                        className='font-bold px-4 py-2 hover:shadow-md rounded-full hover:bg-white focus:outline-none transition duration-300'
+                    >Login con Google</button>
                 </div>
                 )
             }

@@ -45,14 +45,20 @@ function LogViewer() {
     }, [data]);
 
     return (
-        <div className='flex-col'>
+        <div className='flex justify-center'>
             {show ? (
-                <div className='flex-col'>
-                    <button onClick={toggleLogs}>Ocultar logs</button>
+                <div className='flex-col justify-center space-y-2'>
+                    <div className='flex justify-center'>
+                        <button onClick={toggleLogs}
+                            className='font-bold bg-gray-100 px-4 py-2 rounded-full hover:bg-blue-200 focus:outline-none transition duration-300'
+                        >Ocultar mis logs</button>
+                    </div>
                     {logs}            
                 </div>
             ) : (
-                <button onClick={toggleLogs}>Mostrar logs</button>
+                <button onClick={toggleLogs}
+                    className='font-bold bg-gray-100 px-4 py-2 rounded-full hover:bg-blue-200 focus:outline-none transition duration-300'
+                >Mostrar mis logs</button>
             )}
         </div>
     )

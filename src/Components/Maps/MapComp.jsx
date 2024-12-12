@@ -10,6 +10,8 @@ function MapComp() {
     const [markers, setMarkers] = useState([]);
     const [newMarker, setNewMarker] = useState(null);
     const [wiper, setWiper] = useState(false);
+    const [dots, setDots] = useState(1);
+    const [endAnimation, setEndAnimation] = useState(true);
 
     const getUserLocation = () => {
         if(navigator.geolocation) {
@@ -86,26 +88,45 @@ function MapComp() {
         getUserLocation();
     }, []);
 
+    useEffect(() => {
+        if(!location && endAnimation) {
+            setEndAnimation(false)
+            setDots(1);
+            setTimeout(() => {
+                setDots((prev) => prev + 1);
+            }, 500);
+            setTimeout(() => {
+                setDots((prev) => prev + 1);
+            }, 1000);
+            setTimeout(() => {
+                setEndAnimation(true);
+            }, 1500)
+        }
+    },[endAnimation])
+
     //Por defecto toma la localizacion, si se desea cambiar se hace click y con un boton cambiará mostrando los eventos cercanos, añadir el geocoding en la creacion
 
     return (
-        <div className="flex-row flex-wrap items-center justify-center w-full max-h-full py-10">
+        <div className="flex-row flex-wrap items-center justify-center w-full max-h-full py-4">
             {location ? (
                 <div>
-                    <CustomMap lat={location.latitude} lng={location.longitude} markers={markers} zoom={13} setNewMarker={setNewMarker} wiper={wiper}/>
                     {newMarker ? (
-                        <div>
-                            <p>Posicion seleccionada: {newMarker[0]}, {newMarker[1]}</p>
-                            <button onClick={updateUserLocation}>
-                                Seleccionar la ubicacion!
+                        <div className="flex justify-center mb-4">
+                            {/*<p>Posicion seleccionada: {newMarker[0]}, {newMarker[1]}</p>*/}
+                            <button onClick={updateUserLocation}
+                                className='font-bold bg-gray-100 px-4 py-2 rounded-full hover:bg-blue-200 focus:outline-none transition duration-300'
+                            >
+                                Seleccionar la seleccionada como mi ubicacion
                             </button>
                         </div>
                     ) : null}
-
+                    <CustomMap lat={location.latitude} lng={location.longitude} markers={markers} zoom={13} setNewMarker={setNewMarker} wiper={wiper}/>
                 </div>
             ) : (
-                <div className="flex flex-wrap items-center justify-center h-full w-full">
-                    <p>Cargando componente del mapa...</p>
+                <div className="flex flex-wrap items-center justify-center h-full w-full font-bold">
+                    {dots == 1 && (<p>Cargando componente del mapa.</p>)}
+                    {dots == 2 && (<p>Cargando componente del mapa..</p>)}
+                    {dots == 3 && (<p>Cargando componente del mapa...</p>)}
                 </div>
             )}
         </div>

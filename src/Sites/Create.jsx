@@ -157,11 +157,12 @@ function Create() {
     };
 
     return (
-        <div className="bg-blue-100">
-            <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div>
+            <div className="flex justify-center items-center py-4 bg-white">
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md"
+                    className="bg-white shadow-md px-8 pt-6 pb-8 mb-4 max-w-md
+                    border-gray-200 border-2 rounded-lg"
                 >
                     <h1 className="text-2xl font-bold mb-4 text-gray-800">Formulario</h1>
 

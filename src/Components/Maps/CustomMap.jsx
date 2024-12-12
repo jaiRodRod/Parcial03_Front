@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
+import { formatDateTime } from "../CommonOperations";
 
 function LeafletControlGeocoder() {
     const map = useMap();
@@ -142,16 +143,17 @@ function CustomMap({ lat, lng, markers, zoom = 6, setNewMarker, wiper }) {
                                     <div dangerouslySetInnerHTML={{
                                         __html: `
                                         Nombre del item: ${marker.children.nombre} <br />
-                                        Fecha: ${marker.children.fecha} <br />
+                                        Fecha: ${formatDateTime(marker.children.fecha)} <br />
                                         Email del creador: ${marker.children.email} <br />
-                                        Imagen asociada: <a href="${marker.children.url}" target="_blank">${marker.children.url}</a>
+                                        Imagen asociada: <br/>
+                                        <a href="${marker.children.url}" target="_blank"><img src=${marker.children.url} alt="user image"/></a>
                                         `,
                                     }} />
                                 ) : (
                                     <div dangerouslySetInnerHTML={{
                                         __html: `
                                         Nombre del item: ${marker.children.nombre} <br />
-                                        Fecha: ${marker.children.fecha} <br />
+                                        Fecha: ${formatDateTime(marker.children.fecha)} <br />
                                         Email del creador: ${marker.children.email}
                                         `,
                                     }} />
@@ -162,7 +164,7 @@ function CustomMap({ lat, lng, markers, zoom = 6, setNewMarker, wiper }) {
                     </Marker>
                 ))}
                 <UpdateMap onMapClick={handleMapClick} />
-                <LeafletControlGeocoder/>
+                {/*<LeafletControlGeocoder/>*/}
             </MapContainer>
         </div>
     );

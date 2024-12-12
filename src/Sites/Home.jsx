@@ -19,15 +19,18 @@ function Home() {
     }
 
     return (
-        <div className='bg-blue-100'>
+        <div className='bg-white my-4'>
             {isLoggedIn && (
-                <div>
+                <div className='space-y-4'>
                     <LogViewer/>
-                    <button onClick={goToCreate}>Crear un item</button>
+                    <div className='flex justify-center'>
+                        <button onClick={goToCreate}
+                            className='font-bold bg-gray-100 px-4 py-2 rounded-full hover:bg-green-200 focus:outline-none transition duration-300'
+                        >Crear un item</button>
+                    </div>
                 </div>
             )}
             <GetItemsFromGeocode/>
-            <MapComp/>
         </div>
     )
 }

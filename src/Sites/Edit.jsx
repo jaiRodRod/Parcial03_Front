@@ -4,11 +4,11 @@ import { useSession } from '../Components/SessionProvider.jsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import keys from '../../keys.json';
-import url from '../url.json';
+import url_defined from '../url.json';
 
 const cookies = new Cookies();
 
-function Create() {
+function Edit() {
     const { isLoggedIn } = useSession();
     const navigate = useNavigate();
     const { id } = useParams();
@@ -39,25 +39,27 @@ function Create() {
     useEffect(() => {
         const fetchItem = async () => {
             try {
-                const response = await axios.get(`${url.active_urlBase}/event/${id}`);
-                const { nombre, date, lugar, url } = response.data;
+                const response = await axios.get(`${url_defined.active_urlBase}/event/${id}`);
+                // Renombrar 'url' de la respuesta a 'eventUrl' en la desestructuración
+                const { nombre, date, lugar, url: eventUrl } = response.data;
+    
                 setFormData({
                     name: nombre || "",
                     timestamp: date || "",
                     place: lugar || "",
                     image: "",
                 });
-                setUploadedUrl(url || "");
+                setUploadedUrl(eventUrl || ""); // Usar 'eventUrl'
             } catch (err) {
                 console.error("Error al cargar el ítem:", err);
                 alert("No se pudo cargar el ítem.");
                 navigate('/');
             }
         };
-
+    
         fetchItem();
     }, [id, navigate]);
-
+    
     useEffect(() => {
         if (!isLoggedIn) {
             navigate('/');
@@ -84,7 +86,7 @@ function Create() {
                 try {
                     console.log(payload);
                     console.log(done);
-                    await axios.patch(`${url.active_urlBase}/event/${id}`, payload, {
+                    await axios.patch(`${url_defined.active_urlBase}/event/${id}`, payload, {
                         headers: {
                             'Content-Type': 'application/json',
                         },
@@ -180,11 +182,12 @@ function Create() {
     };
 
     return (
-        <div className="bg-blue-100">
-            <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div>
+            <div className="flex justify-center items-center py-4 bg-white">
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md"
+                    className="bg-white shadow-md px-8 pt-6 pb-8 mb-4 max-w-md
+                    border-gray-200 border-2 rounded-lg"
                 >
                     <h1 className="text-2xl font-bold mb-4 text-gray-800">Editar Ítem</h1>
 
@@ -246,12 +249,15 @@ function Create() {
                     </div>
 
                     {uploadedUrl && (
-                        <div>
-                            Imagen actual: <a href={uploadedUrl} target='_blank'>Enlace</a>
+                        <div className="flex-col w-full">
+                            <p><b>Imagen asociada previamente:</b><br/>(click en ella para ver mejor)</p>
+                            <div className="flex justify-center">
+                                <a href={uploadedUrl} target="_blank"><img src={uploadedUrl} alt="user image" className="w-32 h-32"/></a>
+                            </div>
                         </div>
                     )}
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-start">
                         <button
                             type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -266,5 +272,5 @@ function Create() {
     );
 }
 
-export default Create;
+export default Edit;
 

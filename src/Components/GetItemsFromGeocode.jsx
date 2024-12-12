@@ -82,9 +82,10 @@ function GetItemsFromGeocode() {
 
     return (
         <div className="flex-col">
-            <div className="flex-row">
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="address">Dirección:</label>
+            <div className="flex justify-center">
+                <div className="flex flex-wrap justify-center w-[50%]">
+                    <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
+                    <label htmlFor="address" className="flex-shrink-0">Dirección:</label>
                     <input
                         type="text"
                         id="address"
@@ -92,12 +93,19 @@ function GetItemsFromGeocode() {
                         onChange={(e) => setAddress(e.target.value)}
                         placeholder="Introduce una dirección"
                         required
+                        className="appearance-none caret-gray-800 border-gray-300 border-b-2 focus:outline-none w-full flex-grow px-2 py-1"
                     />
-                    <button type="submit">Buscar</button>
-                </form>
+                    <button
+                        type="submit"
+                        className="font-bold bg-gray-100 px-4 py-1 rounded-full hover:bg-blue-200 focus:outline-none transition duration-300 flex-shrink-0"
+                    >
+                        Buscar
+                    </button>
+                    </form>
+                </div>
             </div>
             {items && (
-                <div className="flex-col">
+                <div className="flex-col justify-center my-4">
                     {items}
                 </div>
             )}
