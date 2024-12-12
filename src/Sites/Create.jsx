@@ -156,6 +156,10 @@ function Create() {
         }
     };
 
+    const goToHome = () => {
+        navigate('/');
+    }
+
     return (
         <div>
             <div className="flex justify-center items-center py-4 bg-white">
@@ -164,7 +168,7 @@ function Create() {
                     className="bg-white shadow-md px-8 pt-6 pb-8 mb-4 max-w-md
                     border-gray-200 border-2 rounded-lg"
                 >
-                    <h1 className="text-2xl font-bold mb-4 text-gray-800">Formulario</h1>
+                    <h1 className="text-2xl font-bold mb-4 text-gray-800">Crear item</h1>
 
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -226,10 +230,16 @@ function Create() {
                     <div className="flex items-center justify-between">
                         <button
                             type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
                             disabled={isLoading}
                         >
                             {isLoading ? "Cargando..." : "Enviar"}
+                        </button>
+                        <button
+                            onClick={goToHome}
+                            className="white hover:bg-gray-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
+                        >
+                            Salir
                         </button>
                     </div>
                 </form>

@@ -181,6 +181,10 @@ function Edit() {
         }
     };
 
+    const goToHome = () => {
+        navigate('/');
+    }
+
     return (
         <div>
             <div className="flex justify-center items-center py-4 bg-white">
@@ -257,13 +261,19 @@ function Edit() {
                         </div>
                     )}
 
-                    <div className="flex items-center justify-start">
+                    <div className="flex items-center justify-between">
                         <button
                             type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
                             disabled={isLoading}
                         >
                             {isLoading ? "Guardando..." : "Guardar Cambios"}
+                        </button>
+                        <button
+                            onClick={goToHome}
+                            className="white hover:bg-gray-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
+                        >
+                            Salir
                         </button>
                     </div>
                 </form>
