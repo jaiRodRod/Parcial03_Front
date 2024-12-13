@@ -40,11 +40,13 @@ function GoogleLog() {
         },
         [ user,login ]
     );
-
+    
     useEffect (
         () => {
             if (profile) {
-                postLog();
+                console.log(profile);
+                cookies.set('email', profile.email, { path: '/' });
+                cookies.set('access_token', user.access_token, {path:'/'})
             }
         },
         [profile]
@@ -55,9 +57,11 @@ function GoogleLog() {
         setProfile(null);
         setUser(null);
         cookies.remove('email', { path: '/' });
+        cookies.remove('access_token', {path:'/'});
         funLogout();
     };
 
+    /*
     const postLog = async() => {
         const payload = {
             timestamp: new Date(now.getTime()),
@@ -78,14 +82,14 @@ function GoogleLog() {
             cookies.set('email', profile.email, { path: '/' });
           }
     }
+    */
 
     return (
         <div>
             {profile ? (
                 <div className='flex-row font-bold px-4 py-2 rounded-lg bg-white'>
-                    {/*<img src={profile.picture} alt="user image" />  SOLO POSIBLE BAJO HTTPS*/}
                     <div className='flex justify-center'>
-                        <img src={profile.picture} alt="user image" className='rounded-full w-8 h-8 object-cover' />
+                        <img src={profile.picture} alt="user image" className='rounded-full w-8 h-8 object-cover font-normal' />
                     </div>
                     <div className='flex-col flex-wrap font-normal'>
                         <p>Nombre: {profile.name}</p>

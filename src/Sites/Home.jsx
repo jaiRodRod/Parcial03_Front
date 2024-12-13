@@ -3,10 +3,12 @@ import NavBar from '../Components/NavBar';
 import LogViewer from '../Components/Login/LogViewer';
 
 import MapComp from '../Components/Maps/MapComp.jsx';
-import GetItemsFromGeocode from '../Components/GetItemsFromGeocode.jsx';
 
 import { useSession } from '../Components/SessionProvider.jsx';
 import { useNavigate } from 'react-router-dom';
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 
 function Home() {
@@ -15,22 +17,31 @@ function Home() {
     const navigate = useNavigate();
 
     const goToCreate = () => {
-        navigate("/crearItem");
+        navigate("/crearLocalizacion");
     }
 
+    const email = cookies.get("email");
+
     return (
-        <div className='bg-white my-4'>
-            {isLoggedIn && (
-                <div className='space-y-4'>
-                    <LogViewer/>
-                    <div className='flex justify-center'>
+        <div className='flex-row'>
+            <div className='flex justify-center items-center my-4 font-bold w-full flex-wrap'>
+                <p>Bienvenido a MiMapa!</p>
+            </div>
+            {!isLoggedIn ? (
+                <div className='flex justify-center items-center my-4 w-full flex-wrap'>
+                    <p>Si desea hacer uso de la web debe iniciar sesion (en la barra superior)</p>
+                </div>
+            ) : (
+                <div>
+                    <div className='flex justify-center pb-4'>
                         <button onClick={goToCreate}
                             className='font-bold bg-gray-100 px-4 py-2 rounded-full hover:bg-green-200 focus:outline-none transition duration-300'
-                        >Crear un item</button>
+                        >Añadir un sitio a mi mapa personal</button>
                     </div>
-                </div>
+                    <LogViewer/>
+                    <MapComp user_email={email}/>
+                </div> 
             )}
-            <GetItemsFromGeocode/>
         </div>
     )
 }

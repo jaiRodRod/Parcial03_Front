@@ -14,7 +14,6 @@ function Create() {
 
     const [formData, setFormData] = useState({
         name: "",
-        timestamp: "",
         place: "",
         image: "",
     });
@@ -49,7 +48,6 @@ function Create() {
             if (((formData['image'] && uploadedUrl) || formData['image']=="") && geocodeCoord && !done) {
                 setDone(true);
                 const payload = {
-                    date: sanitizeString(formData.timestamp),
                     email: sanitizeString(email),
                     lat: geocodeCoord?.lat || 0,
                     lon: geocodeCoord?.lng || 0,
@@ -61,15 +59,15 @@ function Create() {
                 try {
                     //console.log(payload);
                     //console.log(done);
-                    await axios.post(`${url.active_urlBase}/event/`, payload, {
+                    await axios.post(`${url.active_urlBase}/localizacion/`, payload, {
                         headers: {
                             'Content-Type': 'application/json',
                         },
                     });
-                    alert("Item creado correctamente");
+                    alert("Localizacion creada correctamente");
                     navigate('/');
                 } catch (err) {
-                    console.error("Error al crear el item:", err);
+                    console.error("Error al crear el la localizacion:", err);
                     alert("Fallo en la creación");
                     navigate('/');
                 }
@@ -110,7 +108,7 @@ function Create() {
                     formDataToUpload
                 );
                 if (isMounted) setUploadedUrl(response.data.url);
-                alert('Archivo subido correctamente');
+                alert('Imagen subida correctamente');
             } catch (err) {
                 console.error('Error al subir la imagen:', err);
                 if (isMounted) setError('Error al subir la imagen');
@@ -172,14 +170,14 @@ function Create() {
 
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Nombre
+                            Nombre del sitio
                         </label>
                         <input
                             type="text"
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            placeholder="Introduce tu nombre"
+                            placeholder="Introduce el nombre del sitio"
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />
@@ -187,28 +185,14 @@ function Create() {
 
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Timestamp
-                        </label>
-                        <input
-                            type="datetime-local"
-                            name="timestamp"
-                            value={formData.timestamp}
-                            onChange={handleChange}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Lugar
+                            Direccion
                         </label>
                         <input
                             type="text"
                             name="place"
                             value={formData.place}
                             onChange={handleChange}
-                            placeholder="Introduce un lugar"
+                            placeholder="Introduce una direccion real"
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />

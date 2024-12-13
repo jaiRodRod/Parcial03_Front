@@ -16,7 +16,7 @@ function LogViewer() {
     const [logs, setLogs] = useState(null);
     const [show, setShow] = useState(false);
 
-    const urlPeticion = `${url.active_urlBase}/log/?filter_user=${email}&sort=true`
+    const urlPeticion = `${url.active_urlBase}/log/?usuario_visitado=${email}&sort=true`
 
     const toggleLogs = () => {
         setReload(!reload)
@@ -51,14 +51,14 @@ function LogViewer() {
                     <div className='flex justify-center'>
                         <button onClick={toggleLogs}
                             className='font-bold bg-gray-100 px-4 py-2 rounded-full hover:bg-blue-200 focus:outline-none transition duration-300'
-                        >Ocultar mis logs</button>
+                        >Ocultar las visitas</button>
                     </div>
                     {logs}            
                 </div>
             ) : (
                 <button onClick={toggleLogs}
                     className='font-bold bg-gray-100 px-4 py-2 rounded-full hover:bg-blue-200 focus:outline-none transition duration-300'
-                >Mostrar mis logs</button>
+                >Mostrar las visitas a mi mapa</button>
             )}
         </div>
     )
